@@ -59,6 +59,7 @@ namespace YTB_Downloader
             download_btn.Enabled = false;
 
             log_txt.Text = "Download started";
+            download_progBar.Value = 0;
             Thread thread = new Thread(DownloadThread);
             thread.Start();
         }
@@ -132,13 +133,17 @@ namespace YTB_Downloader
             string lastInput = null;
             List<string> wholeCMDOutput = new List<string>();
             string[] lines;
+            float percentageMax = 25;
+            float percentageUsed = 0;
+
             p.OutputDataReceived += new DataReceivedEventHandler(
                 (s, e) =>
                 {
                     string currentInput = e.Data;
                     if (e.Data != null && e.Data.Contains("[download] Destination"))
                     {
-                        currentInput = currentInput.Replace("[download] Destination: ", "");
+                        percentageMax = 50;
+                           currentInput = currentInput.Replace("[download] Destination: ", "");
 
                         log_txt.Invoke((MethodInvoker)delegate
                         {
@@ -153,9 +158,10 @@ namespace YTB_Downloader
                     }
                     else if (e.Data != null && e.Data.Contains("[download] "))
                     {
+                        percentageMax = 70;
                         if (usedLines != 0)
                         {
-                            currentInput = currentInput.Replace("[download]  ", "");
+                            currentInput = currentInput.Replace("[download] ", "");
 
                             log_txt.Invoke((MethodInvoker)delegate
                             {
@@ -173,7 +179,8 @@ namespace YTB_Downloader
                     }
                     else if(e.Data != null && e.Data.Contains("[ffmpeg] "))
                     {
-                        currentInput = currentInput.Replace("[ffmpeg] ", "");
+                        percentageMax = 100;
+                           currentInput = currentInput.Replace("[ffmpeg] ", "");
 
                         log_txt.Invoke((MethodInvoker)delegate
                         {
@@ -187,15 +194,28 @@ namespace YTB_Downloader
                         lastInput = e.Data;
                     }
 
+                    if(percentageUsed <= percentageMax)
+                    {
+                        percentageUsed += 2;
+                        download_progBar.Invoke((MethodInvoker)delegate
+                        {
+                            download_progBar.Value = (int)percentageUsed;
+                        });
+                    }
                     usedLines++;
 
                 });
 
             p.WaitForExit();
 
+            download_progBar.Invoke((MethodInvoker)delegate
+            {
+                download_progBar.Value = 100;
+            });
+
             log_txt.Invoke((MethodInvoker)delegate
             {
-                log_txt.Text += Environment.NewLine + "DONE";
+                log_txt.Text += Environment.NewLine + Environment.NewLine + "DONE";
                 download_btn.Enabled = true;
             });
         }

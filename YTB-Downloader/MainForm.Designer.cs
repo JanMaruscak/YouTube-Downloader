@@ -48,6 +48,7 @@
             this.navbar_panel = new System.Windows.Forms.Panel();
             this.programTitle_label = new System.Windows.Forms.Label();
             this.exit_pBox = new System.Windows.Forms.PictureBox();
+            this.download_progBar = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail_pBox)).BeginInit();
             this.navbar_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.exit_pBox)).BeginInit();
@@ -316,12 +317,22 @@
             this.exit_pBox.TabStop = false;
             this.exit_pBox.Click += new System.EventHandler(this.exit_pBox_Click);
             // 
+            // download_progBar
+            // 
+            this.download_progBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(187)))), ((int)(((byte)(134)))), ((int)(((byte)(252)))));
+            this.download_progBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(187)))), ((int)(((byte)(134)))), ((int)(((byte)(252)))));
+            this.download_progBar.Location = new System.Drawing.Point(743, 612);
+            this.download_progBar.Name = "download_progBar";
+            this.download_progBar.Size = new System.Drawing.Size(178, 36);
+            this.download_progBar.TabIndex = 21;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(53)))), ((int)(((byte)(66)))));
             this.ClientSize = new System.Drawing.Size(933, 698);
+            this.Controls.Add(this.download_progBar);
             this.Controls.Add(this.navbar_panel);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.format_cmbBox);
@@ -377,6 +388,7 @@
         private System.Windows.Forms.Panel navbar_panel;
         private System.Windows.Forms.PictureBox exit_pBox;
         private System.Windows.Forms.Label programTitle_label;
+        private System.Windows.Forms.ProgressBar download_progBar;
     }
 }
 
