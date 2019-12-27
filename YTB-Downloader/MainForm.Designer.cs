@@ -49,6 +49,7 @@
             this.programTitle_label = new System.Windows.Forms.Label();
             this.exit_pBox = new System.Windows.Forms.PictureBox();
             this.download_progBar = new System.Windows.Forms.ProgressBar();
+            this.addToPath_checkBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail_pBox)).BeginInit();
             this.navbar_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.exit_pBox)).BeginInit();
@@ -84,7 +85,7 @@
             // install_btn
             // 
             this.install_btn.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.install_btn.Location = new System.Drawing.Point(834, 61);
+            this.install_btn.Location = new System.Drawing.Point(807, 61);
             this.install_btn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.install_btn.Name = "install_btn";
             this.install_btn.Size = new System.Drawing.Size(87, 30);
@@ -251,6 +252,7 @@
             this.log_txt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.log_txt.Size = new System.Drawing.Size(367, 255);
             this.log_txt.TabIndex = 17;
+            this.log_txt.TextChanged += new System.EventHandler(this.log_txt_TextChanged);
             // 
             // label5
             // 
@@ -273,13 +275,13 @@
             this.format_cmbBox.FormattingEnabled = true;
             this.format_cmbBox.Items.AddRange(new object[] {
             "Default",
-            "MP4",
-            "MP3",
-            "AVI",
-            "FLV",
-            "MKV",
-            "WEBM",
-            "OGG"});
+            "mp4",
+            "mp3",
+            "avi",
+            "flv",
+            "mkv",
+            "webm",
+            "ogg"});
             this.format_cmbBox.Location = new System.Drawing.Point(743, 444);
             this.format_cmbBox.Name = "format_cmbBox";
             this.format_cmbBox.Size = new System.Drawing.Size(178, 28);
@@ -326,12 +328,24 @@
             this.download_progBar.Size = new System.Drawing.Size(178, 36);
             this.download_progBar.TabIndex = 21;
             // 
+            // addToPath_checkBox
+            // 
+            this.addToPath_checkBox.AutoSize = true;
+            this.addToPath_checkBox.ForeColor = System.Drawing.Color.White;
+            this.addToPath_checkBox.Location = new System.Drawing.Point(777, 94);
+            this.addToPath_checkBox.Name = "addToPath_checkBox";
+            this.addToPath_checkBox.Size = new System.Drawing.Size(157, 21);
+            this.addToPath_checkBox.TabIndex = 22;
+            this.addToPath_checkBox.Text = "Add to windows path?";
+            this.addToPath_checkBox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(53)))), ((int)(((byte)(66)))));
             this.ClientSize = new System.Drawing.Size(933, 698);
+            this.Controls.Add(this.addToPath_checkBox);
             this.Controls.Add(this.download_progBar);
             this.Controls.Add(this.navbar_panel);
             this.Controls.Add(this.label5);
@@ -389,6 +403,7 @@
         private System.Windows.Forms.PictureBox exit_pBox;
         private System.Windows.Forms.Label programTitle_label;
         private System.Windows.Forms.ProgressBar download_progBar;
+        private System.Windows.Forms.CheckBox addToPath_checkBox;
     }
 }
 

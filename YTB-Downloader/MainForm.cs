@@ -57,8 +57,6 @@ namespace YTB_Downloader
         private void download_btn_Click(object sender, EventArgs ea)
         {
             download_btn.Enabled = false;
-
-            log_txt.Text = "Download started";
             download_progBar.Value = 0;
             Thread thread = new Thread(DownloadThread);
             thread.Start();
@@ -67,8 +65,18 @@ namespace YTB_Downloader
         {
             if (string.IsNullOrWhiteSpace(userLink_txt.Text))
             {
+                downloadPath_btn.Invoke((MethodInvoker)delegate
+                {
+                    download_btn.Enabled = true;
+                });
                 return;
             }
+
+            log_txt.Invoke((MethodInvoker)delegate
+            {
+                log_txt.Text = "Download started";
+            });
+
             Process p = new Process();
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
@@ -107,6 +115,7 @@ namespace YTB_Downloader
                     qualityArg = "-f \"bestvideo[height<=144]+bestaudio/best[height<=144]\"";
                     break;
                 case "Audio only":
+                    qualityArg = "-f bestaudio";
                     break;
                 case "4k":
                     qualityArg = "-f \"bestvideo[height<=2160]+bestaudio/best[height<=2160]\"";
@@ -119,15 +128,23 @@ namespace YTB_Downloader
                     break;
             }
             p.StartInfo.Arguments += qualityArg + " "; // video and audio quality
-            //////if (format_cmbBox.SelectedItem.ToString() != "Default")
-            //////{
-            //////    p.StartInfo.Arguments += $"--recode-video {format_cmbBox.SelectedItem.ToString()}";
-            //////}
+            format_cmbBox.Invoke((MethodInvoker)delegate
+            {
+                if(qualityText == "Audio only")
+                {
+                    p.StartInfo.Arguments += $"--extract-audio --audio-format {format_cmbBox.SelectedItem.ToString()}";
+                }
+                else if (format_cmbBox.SelectedItem.ToString() != "Default")
+                {
+                    p.StartInfo.Arguments += $"--recode-video {format_cmbBox.SelectedItem.ToString()}";
+                }
+            });
             p.StartInfo.Arguments += " " + userLink_txt.Text; // finally adding users video link
 
 
             p.Start();
             p.BeginOutputReadLine();
+            
 
             int usedLines = 0;
             string lastInput = null;
@@ -148,8 +165,8 @@ namespace YTB_Downloader
                         log_txt.Invoke((MethodInvoker)delegate
                         {
                             if (usedLines != 0)
-                                log_txt.Text += Environment.NewLine;
-                            log_txt.Text += Environment.NewLine;
+                                log_txt.AppendText(Environment.NewLine);
+                            log_txt.AppendText(Environment.NewLine);
                             lines = log_txt.Lines;
                             lines[lines.Length - 1] = currentInput;
                             log_txt.Lines = lines;
@@ -166,7 +183,7 @@ namespace YTB_Downloader
                             log_txt.Invoke((MethodInvoker)delegate
                             {
                                 if (lastInput != null && lastInput.Contains("[download] Destination"))
-                                    log_txt.Text += Environment.NewLine;
+                                    log_txt.AppendText(Environment.NewLine);
                                 lines = log_txt.Lines;
                                 if (lines.Length > 0)
                                     lines[lines.Length - 1] = currentInput;
@@ -185,14 +202,23 @@ namespace YTB_Downloader
                         log_txt.Invoke((MethodInvoker)delegate
                         {
                             if (usedLines != 0)
-                                log_txt.Text += Environment.NewLine;
-                            log_txt.Text += Environment.NewLine;
+                                log_txt.AppendText(Environment.NewLine);
+                            log_txt.AppendText(Environment.NewLine);
                             lines = log_txt.Lines;
                             lines[lines.Length - 1] = currentInput;
                             log_txt.Lines = lines;
                         });
                         lastInput = e.Data;
                     }
+                    //else if(e.Data != null && e.Data.Contains("ERROR"))
+                    //{
+                    //    log_txt.Invoke((MethodInvoker)delegate
+                    //    {
+                    //        log_txt.AppendText(e.Data);
+                    //    });
+                    //    lastInput = e.Data;
+                    //}
+
 
                     if(percentageUsed <= percentageMax)
                     {
@@ -205,6 +231,8 @@ namespace YTB_Downloader
                     usedLines++;
 
                 });
+            //p.ErrorDataReceived += new DataReceivedEventHandler(
+            //    (s, e) => { log_txt.Invoke((MethodInvoker)delegate { log_txt.AppendText(e.Data); }); });
 
             p.WaitForExit();
 
@@ -215,7 +243,7 @@ namespace YTB_Downloader
 
             log_txt.Invoke((MethodInvoker)delegate
             {
-                log_txt.Text += Environment.NewLine + Environment.NewLine + "DONE";
+                log_txt.AppendText(Environment.NewLine + Environment.NewLine + "DONE");
                 download_btn.Enabled = true;
             });
         }
@@ -227,8 +255,10 @@ namespace YTB_Downloader
 
             using (WebClient wc = new WebClient())
             {
-                wc.DownloadFile("https://youtube-dl.org/downloads/latest/youtube-dl.exe", ProgramDirectory + "\\youtube-dl.exe");
-                wc.DownloadFile("https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-20191223-5b42d33-win64-static.zip", ProgramDirectory + "\\FFmpeg.zip");
+                if(!File.Exists(ProgramDirectory + "\\youtube-dl.exe"))
+                    wc.DownloadFile("https://youtube-dl.org/downloads/latest/youtube-dl.exe", ProgramDirectory + "\\youtube-dl.exe");
+                if (!Directory.Exists(ProgramDirectory + "\\FFmpeg"))
+                    wc.DownloadFile("https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-20191223-5b42d33-win64-static.zip", ProgramDirectory + "\\FFmpeg.zip");
             }
 
             if (!Directory.Exists(ProgramDirectory + "\\FFmpeg"))
@@ -237,14 +267,17 @@ namespace YTB_Downloader
             }
             File.Delete(ProgramDirectory + "\\FFmpeg.zip");
 
-            Process p = new Process();
-            p.StartInfo.UseShellExecute = true; // prej true nevim
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.FileName = "cmd.exe";
-            p.StartInfo.Arguments = $"/c setx /M PATH \"{ProgramDirectory}\\FFmpeg\\ffmpeg-20191223-5b42d33-win64-static\\bin;%PATH%\"";
-            p.StartInfo.Verb = "runas";
-            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            p.Start();
+            if (addToPath_checkBox.Checked)
+            {
+                Process p = new Process();
+                p.StartInfo.UseShellExecute = true; // prej true nevim
+                p.StartInfo.CreateNoWindow = true;
+                p.StartInfo.FileName = "cmd.exe";
+                p.StartInfo.Arguments = $"/c setx /M PATH \"{ProgramDirectory}\\FFmpeg\\ffmpeg-20191223-5b42d33-win64-static\\bin;%PATH%\"";
+                p.StartInfo.Verb = "runas";
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                p.Start();
+            }
         }
 
         private void getInfo_btn_Click(object sender, EventArgs e) 
@@ -361,6 +394,15 @@ namespace YTB_Downloader
         private void downloadPath_label_Click(object sender, EventArgs e)
         {
             Process.Start(downloadPath_label.Text);
+        }
+
+        private void log_txt_TextChanged(object sender, EventArgs e)
+        {
+            if (log_txt.Visible)
+            {
+                log_txt.SelectionStart = log_txt.TextLength;
+                log_txt.ScrollToCaret();
+            }
         }
     }
 }
