@@ -127,6 +127,9 @@ namespace YTB_Downloader
                     qualityArg = "";
                     break;
             }
+            LinkedListNode<string> fd = new LinkedListNode<string>("");
+            fd.List.
+
             p.StartInfo.Arguments += qualityArg + " "; // video and audio quality
             format_cmbBox.Invoke((MethodInvoker)delegate
             {
