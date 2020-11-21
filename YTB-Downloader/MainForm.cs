@@ -17,14 +17,15 @@ using System.Windows.Forms;
 
 namespace YTB_Downloader
 {
-    // key = AIzaSyB9cFP7RXIkOLsKIeRVUH01N7rmvF6tn60 
+    // key = AIzaSyB9cFP7RXIkOLsKIeRVUH01N7rmvF6tn60
     public partial class MainForm : Form
     {
         public bool VideoExists = false;
         public string LastVideoInfoUrl = "";
-        string ProgramDirectory = Path.GetPathRoot(Environment.SystemDirectory) + "YTB-Downloader";
-        string DownloadPath = Path.GetPathRoot(Environment.SystemDirectory) + "YTB-Downloader";
+        private string ProgramDirectory = Path.GetPathRoot(Environment.SystemDirectory) + "YTB-Downloader";
+        private string DownloadPath = Path.GetPathRoot(Environment.SystemDirectory) + "YTB-Downloader";
         public static Manager Manager = new Manager();
+
         public MainForm()
         {
             InitializeComponent();
@@ -51,7 +52,6 @@ namespace YTB_Downloader
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
         }
 
         private void download_btn_Click(object sender, EventArgs ea)
@@ -61,6 +61,7 @@ namespace YTB_Downloader
             Thread thread = new Thread(DownloadThread);
             thread.Start();
         }
+
         public void DownloadThread(Object stateInfo)
         {
             if (string.IsNullOrWhiteSpace(userLink_txt.Text))
@@ -96,44 +97,54 @@ namespace YTB_Downloader
                 case "Best Possible":
                     qualityArg = "-f bestvideo+bestaudio";
                     break;
+
                 case "1080p":
                     qualityArg = "-f \"bestvideo[height<=1080]+bestaudio/best[height<=1080]\"";
                     break;
+
                 case "720p":
                     qualityArg = "-f \"bestvideo[height<=720]+bestaudio/best[height<=720]\"";
                     break;
+
                 case "480p":
                     qualityArg = "-f \"bestvideo[height<=480]+bestaudio/best[height<=480]\"";
                     break;
+
                 case "360p":
                     qualityArg = "-f \"bestvideo[height<=360]+bestaudio/best[height<=360]\"";
                     break;
+
                 case "240p":
                     qualityArg = "-f \"bestvideo[height<=240]+bestaudio/best[height<=240]\"";
                     break;
+
                 case "144p":
                     qualityArg = "-f \"bestvideo[height<=144]+bestaudio/best[height<=144]\"";
                     break;
+
                 case "Audio only":
                     qualityArg = "-f bestaudio";
                     break;
+
                 case "4k":
                     qualityArg = "-f \"bestvideo[height<=2160]+bestaudio/best[height<=2160]\"";
                     break;
+
                 case "2k":
                     qualityArg = "-f \"bestvideo[height<=1440]+bestaudio/best[height<=1440]\"";
                     break;
+
                 default:
                     qualityArg = "";
                     break;
             }
             LinkedListNode<string> fd = new LinkedListNode<string>("");
-            fd.List.
+            //fd.List.
 
             p.StartInfo.Arguments += qualityArg + " "; // video and audio quality
             format_cmbBox.Invoke((MethodInvoker)delegate
             {
-                if(qualityText == "Audio only")
+                if (qualityText == "Audio only")
                 {
                     p.StartInfo.Arguments += $"--extract-audio --audio-format {format_cmbBox.SelectedItem.ToString()}";
                 }
@@ -144,10 +155,8 @@ namespace YTB_Downloader
             });
             p.StartInfo.Arguments += " " + userLink_txt.Text; // finally adding users video link
 
-
             p.Start();
             p.BeginOutputReadLine();
-            
 
             int usedLines = 0;
             string lastInput = null;
@@ -163,7 +172,7 @@ namespace YTB_Downloader
                     if (e.Data != null && e.Data.Contains("[download] Destination"))
                     {
                         percentageMax = 50;
-                           currentInput = currentInput.Replace("[download] Destination: ", "");
+                        currentInput = currentInput.Replace("[download] Destination: ", "");
 
                         log_txt.Invoke((MethodInvoker)delegate
                         {
@@ -197,10 +206,10 @@ namespace YTB_Downloader
 
                         lastInput = e.Data;
                     }
-                    else if(e.Data != null && e.Data.Contains("[ffmpeg] "))
+                    else if (e.Data != null && e.Data.Contains("[ffmpeg] "))
                     {
                         percentageMax = 100;
-                           currentInput = currentInput.Replace("[ffmpeg] ", "");
+                        currentInput = currentInput.Replace("[ffmpeg] ", "");
 
                         log_txt.Invoke((MethodInvoker)delegate
                         {
@@ -222,8 +231,7 @@ namespace YTB_Downloader
                     //    lastInput = e.Data;
                     //}
 
-
-                    if(percentageUsed <= percentageMax)
+                    if (percentageUsed <= percentageMax)
                     {
                         percentageUsed += 2;
                         download_progBar.Invoke((MethodInvoker)delegate
@@ -232,7 +240,6 @@ namespace YTB_Downloader
                         });
                     }
                     usedLines++;
-
                 });
             //p.ErrorDataReceived += new DataReceivedEventHandler(
             //    (s, e) => { log_txt.Invoke((MethodInvoker)delegate { log_txt.AppendText(e.Data); }); });
@@ -258,7 +265,7 @@ namespace YTB_Downloader
 
             using (WebClient wc = new WebClient())
             {
-                if(!File.Exists(ProgramDirectory + "\\youtube-dl.exe"))
+                if (!File.Exists(ProgramDirectory + "\\youtube-dl.exe"))
                     wc.DownloadFile("https://youtube-dl.org/downloads/latest/youtube-dl.exe", ProgramDirectory + "\\youtube-dl.exe");
                 if (!Directory.Exists(ProgramDirectory + "\\FFmpeg"))
                     wc.DownloadFile("https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-20191223-5b42d33-win64-static.zip", ProgramDirectory + "\\FFmpeg.zip");
@@ -283,18 +290,19 @@ namespace YTB_Downloader
             }
         }
 
-        private void getInfo_btn_Click(object sender, EventArgs e) 
+        private void getInfo_btn_Click(object sender, EventArgs e)
         {
             SetInfo();
         }
 
         private void userLink_txt_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 SetInfo();
             }
         }
+
         public bool SetInfo()
         {
             try
@@ -331,7 +339,7 @@ namespace YTB_Downloader
             using (var fbd = new FolderBrowserDialog())
             {
                 fbd.SelectedPath = ProgramDirectory;
-                if(fbd.ShowDialog() == DialogResult.OK)
+                if (fbd.ShowDialog() == DialogResult.OK)
                 {
                     DownloadPath = fbd.SelectedPath;
                     Manager.Directory = DownloadPath;
@@ -345,7 +353,9 @@ namespace YTB_Downloader
         {
             Focus();
         }
-        List<string> LastOutput = new List<string>();
+
+        private List<string> LastOutput = new List<string>();
+
         public void SetQualities()
         {
             Process p = new Process();
@@ -362,7 +372,6 @@ namespace YTB_Downloader
             p.Start();
             //p.BeginOutputReadLine();
 
-
             //p.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
             //{
             //    LastOutput.Add(e.Data);
@@ -371,15 +380,17 @@ namespace YTB_Downloader
             //    });
             //});
             //p.WaitForExit();
-
         }
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
+
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
+
         private void navbar_panel_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left) // Drag formy

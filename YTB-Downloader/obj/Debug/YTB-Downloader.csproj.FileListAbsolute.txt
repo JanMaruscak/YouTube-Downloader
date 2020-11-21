@@ -23,3 +23,29 @@ C:\Users\janma\source\repos\YTB-Downloader\YTB-Downloader\bin\Debug\Google.Apis.
 C:\Users\janma\source\repos\YTB-Downloader\YTB-Downloader\bin\Debug\Google.Apis.YouTube.v3.xml
 C:\Users\janma\source\repos\YTB-Downloader\YTB-Downloader\bin\Debug\Newtonsoft.Json.xml
 C:\Users\janma\source\repos\YTB-Downloader\YTB-Downloader\obj\Debug\YTB-Downloader.csproj.CopyComplete
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\obj\Debug\YTB-Downloader.csprojAssemblyReference.cache
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\obj\Debug\YTB_Downloader.MainForm.resources
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\obj\Debug\YTB_Downloader.Properties.Resources.resources
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\obj\Debug\YTB-Downloader.csproj.GenerateResource.cache
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\obj\Debug\YTB-Downloader.csproj.CoreCompileInputs.cache
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\obj\Debug\YTB-Downloader.exe
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\obj\Debug\YTB-Downloader.pdb
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\YTB-Downloader.exe
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.Auth.dll
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.Auth.PlatformServices.dll
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.Core.dll
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.dll
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.PlatformServices.dll
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.YouTube.v3.dll
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Newtonsoft.Json.dll
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.pdb
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.xml
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.Auth.pdb
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.Auth.xml
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.Core.pdb
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.Core.xml
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.YouTube.v3.pdb
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Google.Apis.YouTube.v3.xml
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\Newtonsoft.Json.xml
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\obj\Debug\YTB-Downloader.csproj.CopyComplete
+D:\Google Drive\Projects\c#\YouTube-Downloader\YTB-Downloader\bin\Debug\YTB-Downloader.pdb
